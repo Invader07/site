@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <link rel="icon" href="favicon-32x32.png" type="image/gif">
+        <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <meta name="description" content="the kattsite">
+        <meta name="theme-color" content="#7f48c7">
+        <meta name="twitter:title" content="kattsite">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:description" content="the kattsite">
+        <meta property="og:title" content="kattsite">
+        <meta property="og:image" content="http://kattnip.supermariogalaxy2.com/favicon.gif">
+        <meta property="twitter:description" content="the kattsite">
+        <title>kattsite</title>
+        <!-- Inject PNG favicons for other browsers
+             Not ideal since JS required, but this is a static site -->
+        <script>
+        if (!navigator.userAgent.match(/Firefox/)) {
+            document.querySelector("head").insertAdjacentHTML('beforeend', '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">');
+            document.querySelector("head").insertAdjacentHTML('beforeend', '<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">');
+            document.querySelector("head").insertAdjacentHTML('beforeend', '<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">');
+            document.querySelector("head").insertAdjacentHTML('beforeend', '<link rel="manifest" href="/site.webmanifest">');
+        }
+        </script>
+    </head>
+    <body>
+    <center>
+        <div id="statusbar">katt​</div>
+            <div id="clock">
+                <div id="dot">​</div>
+                <div id="hour" title="hour" class="hand" style="--color: #797979; --height: 22.5px; --width: 2.5px"><i></i></div>
+                <div id="minute" title="minute" class="hand" style="--color: #797979; --height: 33.5px; --width: 2.5px"><i></i></div>
+                <div id="second" title="second" class="hand" style="--color: #8a00d3; --height: 36.5px; --width: 2.5px"><i></i></div>
+                <div id="alarm" title="alarm" class="hand" style="--color: #fb5971; --height: 15px; --width: 2.5px; transform: rotate(30deg);"><i></i></div>
+            </div>
+            <div>
+                hi! im katt and welcome to my website!<br>
+                my pronouns are she/any and i am 19 years old<br>
+                i like playing my video games and doing various other things</div>
+        </center>
+    <footer>last updated 2025-04-26</footer>
+    <script>
+        function updateClock() {
+            var audio = new Audio('second.wav');
+            const now = new Date();
+            const second = now.getSeconds();
+            const minute = now.getMinutes();
+            const hour = now.getHours();
+            document.getElementById('hour').style.transform = `rotate(${30 * hour + minute / 2}deg)`;
+            document.getElementById('minute').style.transform = `rotate(${6 * minute}deg)`;
+            document.getElementById('second').style.transform = `rotate(${6 * second}deg)`;
+            audio.play();
+        }
+setInterval(updateClock, 1000);
+updateClock();
+    </script>
+    <script>
+        function getFormattedTimestamp() {
+            const now = new Date();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            return `[${hours}:${minutes}:${seconds}] `;
+          }
+          </script>
+    <script>
+    if ('getBattery' in navigator) {
+      navigator.getBattery().then((battery) => {
+  const updateChargeInfo = () => console.log(getFormattedTimestamp() + `Battery charging? ${battery.charging ? "Yes" : "No"}`);
+  const updateLevelInfo = () => console.log(getFormattedTimestamp() + `Battery level: ${battery.level * 100}%`);
+  const updateChargingInfo = () => console.log(getFormattedTimestamp() + `Battery charging time: ${battery.chargingTime} seconds`);
+  const updateDischargingInfo = () => console.log(getFormattedTimestamp() + `Battery discharging time: ${battery.dischargingTime} seconds`);
+  const updateAllBatteryInfo = () => { updateChargeInfo(); updateLevelInfo(); updateChargingInfo(); updateDischargingInfo(); };
+
+  updateAllBatteryInfo();
+
+  battery.addEventListener("chargingchange", updateChargeInfo);
+  battery.addEventListener("levelchange", updateLevelInfo);
+  battery.addEventListener("chargingtimechange", updateChargingInfo);
+  battery.addEventListener("dischargingtimechange", updateDischargingInfo);
+});
+
+} else {
+    if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')  {
+        console.warn(getFormattedTimestamp() + 'Beginning in Chrome 103, the Battery Status API is only supported over HTTPS, so the battery icon will not update. Switch to HTTPS or use Opera.');
+    }
+    if (navigator.userAgentData) {
+        navigator.userAgentData.brands.forEach(brand => {
+            if (brand.brand.toLowerCase().includes('firefox')) {
+                console.warn(getFormattedTimestamp() + "Beginning in Firefox 52, the Battery Status API is no longer supported, so the battery icon will not update. Switch to Chrome 38+, Opera 25+, or Firefox 43–51 (not recommended).");
+            }
+        });
+    } else {
+        // Fallback for older browsers
+            if (navigator.userAgent.toLowerCase().includes('gecko') && !navigator.userAgent.toLowerCase().includes('webkit') && !navigator.userAgent.toLowerCase().includes('trident')) {
+                console.warn(getFormattedTimestamp() + "Beginning in Firefox 52, the Battery Status API is no longer supported, so the battery icon will not update. Switch to Chrome 38+, Opera 25+, or Firefox 43–51 (not recommended).");
+            }
+        }
+    }
+    </script>
+    </body>
+</html>
