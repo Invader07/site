@@ -41,7 +41,6 @@ body {
     height: 99px;
     background-image: url(dot.png);
     position: absolute;
-    z-index: 1
 }
 #clock .hand {
     display: flex;
@@ -53,10 +52,6 @@ body {
     background-color: var(--color);
     width: var(--width);
     height: var(--height);
-}
-
-#alarm {
-    z-index: -1
 }
 
 footer {
