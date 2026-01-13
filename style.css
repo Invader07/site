@@ -1,6 +1,6 @@
 @font-face {
     font-family:'NintendoDS';
-    src: url('NintendoDS.ttf')}
+    src: url(NintendoDS.woff2), url(NintendoDS.woff), url('NintendoDS.ttf')}
 
 html {
     background-image: url('bg.png');
